@@ -102,3 +102,63 @@ struct PilhaHistorico {
         while (!isEmpty()) pop();
     }
 };
+// ════════════════════════════════════════════════════════════════
+// R3 · LISTA DE MÉDICOS DISPONÍVEIS (lista encadeada)
+// ════════════════════════════════════════════════════════════════
+struct ListaMedicos {
+    No* head = nullptr;
+
+    // TODO 7: Implemente adicionarMedico(nome)
+    void adicionarMedico(const string& nome) {
+        No* novo = new No(nome);
+        if (head == nullptr) {
+            head = novo;
+        } else {
+            No* p = head;
+            while (p->prox != nullptr) {
+                p = p->prox;
+            }
+            p->prox = novo;
+        }
+    }
+
+    // TODO 8: Implemente chamarMedico()
+    string chamarMedico() {
+        if (head == nullptr) return "";
+
+        No* temp = head;
+        string nomeSalvo = temp->nome;
+
+        head = head->prox;
+        delete temp; // libera memória do nó removido
+
+        return nomeSalvo;
+    }
+
+    // TODO 9: Implemente percorrer()
+    void percorrer(const string& prefixo = "") const {
+        if (!prefixo.empty()) cout << prefixo << ": ";
+        if (head == nullptr) {
+            cout << "(lista vazia)\n";
+            return;
+        }
+
+        No* p = head;
+        while (p != nullptr) {
+            cout << p->nome;
+            if (p->prox != nullptr) cout << " -> ";
+            p = p->prox;
+        }
+        cout << "\n";
+    }
+
+    bool temMedico() const { return head != nullptr; }
+
+    ~ListaMedicos() {
+        while (head) {
+            No* t = head;
+            head  = head->prox;
+            delete t;
+        }
+    }
+};
