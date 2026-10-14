@@ -67,3 +67,38 @@ struct FilaPacientes {
     }
 };
 
+struct PilhaHistorico {
+    No* topo = nullptr;
+
+ 
+    void push(const string& nome) {
+        No* novo = new No(nome);
+        novo->prox = topo;
+        topo = novo;
+    }
+
+   
+    string pop() {
+        if (isEmpty()) return "";
+
+        No* temp = topo;
+        string nomeSalvo = temp->nome;
+
+        topo = topo->prox;
+        delete temp;
+
+        return nomeSalvo;
+    }
+
+    
+    string peek() const {
+        if (isEmpty()) return "";
+        return topo->nome;
+    }
+
+    bool isEmpty() const { return topo == nullptr; }
+
+    ~PilhaHistorico() {
+        while (!isEmpty()) pop();
+    }
+};
